@@ -61,12 +61,13 @@ def get_oldest_date(db_path):
         conn = get_connection(db_path, strategy="oledb", read_only=True)
         cursor = conn.cursor()
         cursor.execute("SELECT MIN(OrderDateTime) FROM Orderheaders WHERE OrderDateTime IS NOT NULL")
-        oldest = cursor.fetchone()[0]
+        result = cursor.fetchall()
         cursor.close()
         conn.close()
         
-        if oldest:
-            logger.info(f"📅 Oldest record found: {oldest}")
+        if result and result[0] and result[0][0]:
+            oldest = result[0][0]
+            logger.info(f"Oldest record found: {oldest}")
             return oldest.year, oldest.month
         
         logger.warning("No records found, using default 2024-01")
