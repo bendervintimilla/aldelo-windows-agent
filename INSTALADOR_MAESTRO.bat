@@ -96,19 +96,15 @@ git config --global credential.helper ""
 
 if exist ".git" (
     echo       Repositorio existe, actualizando...
-    git -c credential.helper= fetch origin main >nul 2>&1
-    git checkout origin/main -- windows-agent >nul 2>&1
-    copy /y windows-agent\*.py . >nul 2>&1
-    copy /y windows-agent\*.bat . >nul 2>&1
+    git -c credential.helper= pull origin main >nul 2>&1
     echo       [OK] Codigo actualizado desde GitHub
 ) else (
-    echo       Inicializando repositorio...
+    echo       Clonando repositorio publico...
+    git clone https://github.com/bendervintimilla/aldelo-windows-agent.git temp_repo 2>nul
+    xcopy /s /y /q temp_repo\* . >nul 2>&1
+    rd /s /q temp_repo >nul 2>&1
     git init >nul 2>&1
-    git remote add origin https://github.com/bendervintimilla/aldelo-BI.git 2>nul
-    git -c credential.helper= fetch origin main
-    git checkout origin/main -- windows-agent
-    copy /y windows-agent\*.py . >nul 2>&1
-    copy /y windows-agent\*.bat . >nul 2>&1
+    git remote add origin https://github.com/bendervintimilla/aldelo-windows-agent.git 2>nul
     echo       [OK] Repositorio clonado
 )
 
@@ -126,10 +122,6 @@ echo     "db_path_override": null
 echo }
 ) > config.json
 if not exist "logs" mkdir logs
-if not exist "tools" mkdir tools
-if not exist "utils" mkdir utils
-xcopy /s /y /q windows-agent\tools\* tools\ >nul 2>&1
-xcopy /s /y /q windows-agent\utils\* utils\ >nul 2>&1
 echo       [OK] config.json creado para %STORE_NAME%
 
 :: =============================================================================
@@ -146,11 +138,7 @@ echo [7/8] Creando tarea de auto-update (cada hora)...
 (
 echo @echo off
 echo cd /d "%INSTALL_DIR%"
-echo git fetch origin main ^>nul 2^>^&1
-echo git checkout origin/main -- windows-agent ^>nul 2^>^&1
-echo copy /y windows-agent\smart_agent.py . ^>nul 2^>^&1
-echo copy /y windows-agent\tools\*.py tools\ ^>nul 2^>^&1
-echo copy /y windows-agent\utils\*.py utils\ ^>nul 2^>^&1
+echo git pull origin main ^>nul 2^>^&1
 echo taskkill /f /fi "WINDOWTITLE eq Smart Agent*" ^>nul 2^>^&1
 echo timeout /t 2 /nobreak ^>nul
 echo start "Smart Agent - %STORE_NAME%" /min pythonw smart_agent.py
