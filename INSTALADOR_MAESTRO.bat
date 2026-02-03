@@ -128,7 +128,7 @@ echo       [OK] config.json creado para %STORE_NAME%
 echo [6/8] Creando tarea de inicio automatico...
 :: =============================================================================
 schtasks /delete /tn "BendrixBI_%STORE_ID%" /f >nul 2>&1
-schtasks /create /tn "BendrixBI_%STORE_ID%" /tr "pythonw \"%INSTALL_DIR%smart_agent.py\"" /sc onlogon /rl highest /f >nul 2>&1
+schtasks /create /tn "BendrixBI_%STORE_ID%" /tr "cmd /c cd /d \"%INSTALL_DIR%\" && start pythonw smart_agent.py" /sc onlogon /rl highest /f >nul 2>&1
 echo       [OK] Agente iniciara con Windows
 
 :: =============================================================================
