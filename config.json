@@ -1,0 +1,17 @@
+{
+    "store_id": "molldelrio",
+    "central_server_url": "https://aldelo-bi-production.up.railway.app/api/ingest",
+    "db_path": "C:\\ProgramData\\Aldelo\\Aldelo For Restaurants\\Databases\\Live\\melatte4.2024\\MELATTES 1 al 4.mdb",
+    "use_registry": false,
+    "connection_strategy": [
+        "oledb",
+        "odbc"
+    ],
+    "lookback_days": 365,
+    "extraction_interval_minutes": 60,
+    "read_only": true,
+    "retry_attempts": 3,
+    "retry_delay_seconds": 60,
+    "historical_start_year": 2024,
+    "historical_start_month": 1
+}

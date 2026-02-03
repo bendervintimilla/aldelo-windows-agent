@@ -1,0 +1,12 @@
+# Core dependencies
+pyodbc>=4.0.39
+requests>=2.31.0
+schedule>=1.2.0
+pandas>=2.0.0
+
+# Windows-specific dependencies
+pywin32>=306
+comtypes>=1.2.0
+
+# Optional: For creating standalone .exe
+pyinstaller>=5.0
